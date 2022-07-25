@@ -1,6 +1,6 @@
 {
   "name": "w5mf-types",
-  "version": "0.1b0",
+  "version": "0.1.0b1",
   "description": "For Webpack Module Federation Plugins: added shared typescript types",
   "main": "src/index.js",
   "repository": {
