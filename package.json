@@ -3,8 +3,16 @@
   "version": "0.1b0",
   "description": "For Webpack Module Federation Plugins: added shared typescript types",
   "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ssovberkt/w5mf-types"
+  },
   "scripts": {},
-  "keywords": [],
+  "keywords": [
+    "wmf",
+    "ts",
+    "types"
+  ],
   "author": "ssovberkt",
   "license": "MIT",
   "dependencies": {
