@@ -1,0 +1,16 @@
+{
+  "name": "w5mf-types",
+  "version": "0.1b0",
+  "description": "For Webpack Module Federation Plugins: added shared typescript types",
+  "main": "src/index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "ssovberkt",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "download": "^8.0.0",
+    "lodash.get": "^4.4.2",
+    "typescript": "^4.6.4"
+  }
+}
