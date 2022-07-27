@@ -119,7 +119,7 @@ module.exports = class W5MFTypesPlugin {
       }
     };
 
-    compiler.hooks.afterCompile.tap("W5MFTypes", (compilation) => {
+    compiler.hooks.beforeCompile.tap("W5MFTypes", (compilation) => {
       run(compilation);
     });
   }
