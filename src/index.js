@@ -103,9 +103,8 @@ module.exports = class W5MFTypesPlugin {
 
       if (Object.keys(remoteComponents).length) {
         const remoteUrls = Object.values(remoteComponents).map(remoteComponent => {
-          const url = new URL(remoteComponent.split('@')[1])
-          const urlArr = url.split('/')
-          return urlArr.slice(0, urlArr.length - 1).join('/')
+          const url = remoteComponent.split('@')[1].split('/')
+          return url.slice(0, url.length - 1).join('/')
         })
 
         remoteUrls.forEach(remote => {
