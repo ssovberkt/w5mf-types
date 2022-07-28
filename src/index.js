@@ -1,4 +1,5 @@
 const ts = require("typescript");
+const https = require("https");
 const fs = require('fs');
 const path = require('path');
 const get = require('lodash.get');
@@ -107,11 +108,23 @@ module.exports = class W5MFTypesPlugin {
           return url.slice(0, url.length - 1).join('/')
         })
 
+        const httpsAgent = new https.Agent({
+          rejectUnauthorized: false,
+        });
+
         remoteUrls.forEach(remote => {
-          axios.get(`${remote}/${typesFile}`)
+          axios.get(`${remote}/${typesFile}`,  { httpsAgent })
             .then(indexFileResp => {
+              console.log('@types.json', indexFileResp.data)
               indexFileResp.data?.forEach(file => {
-                download(`${remote}/${file}`, `${installDir}/${path.dirname(file)}`)
+                axios.get(`${remote}/${file}`,  { httpsAgent })
+                  .then(resp => {
+                    fs.writeFileSync(
+                      `${installDir}/${path.dirname(file)}`,
+                      resp.data,
+                    )
+                  })
+                  // download(`${remote}/${file}`, `${installDir}/${path.dirname(file)}`)
               })
             })
             .catch(e => console.log('Error fetching / writing types', e))
