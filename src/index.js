@@ -115,7 +115,6 @@ module.exports = class W5MFTypesPlugin {
         remoteUrls.forEach(remote => {
           axios.get(`${remote}/${typesFile}`,  { httpsAgent })
             .then(indexFileResp => {
-              console.log('@types.json', indexFileResp.data)
               indexFileResp.data?.forEach(file => {
                 axios.get(`${remote}/${file}`,  { httpsAgent })
                   .then(resp => {
@@ -124,7 +123,6 @@ module.exports = class W5MFTypesPlugin {
                       resp.data,
                     )
                   })
-                  // download(`${remote}/${file}`, `${installDir}/${path.dirname(file)}`)
               })
             })
             .catch(e => console.log('Error fetching / writing types', e))
@@ -132,7 +130,7 @@ module.exports = class W5MFTypesPlugin {
       }
     };
 
-    compiler.hooks.beforeCompile.tap("W5MFTypes", (compilation) => {
+    compiler.hooks.beforeRun.tap("W5MFTypes", (compilation) => {
       run(compilation);
     });
   }
