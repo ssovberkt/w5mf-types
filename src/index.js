@@ -1,9 +1,9 @@
 const ts = require("typescript");
-const https = require("https");
 const fs = require('fs');
 const path = require('path');
 const get = require('lodash.get');
 const axios = require('axios');
+const download = require('download');
 
 const Logger = {
   debug: (label, message) => {
@@ -91,7 +91,8 @@ module.exports = class W5MFTypesPlugin {
       pathTypesFile: ${pathTypesFile};
     `);
 
-    const run = () => {
+    const run = (compilation) => {
+      Logger.info('run', compilation);
       if (Object.keys(exposedComponents).length) {
         let exposedFiles = [];
         Object.values(exposedComponents).forEach(exposedPath => {
@@ -136,7 +137,7 @@ module.exports = class W5MFTypesPlugin {
           declare.push(`declare module '${pathModule}' {\n${fileData.join('\n')}\n};\n`);
         });
 
-        Logger.debug(`Write file: ${pathTypesDir}/index.d.ts`, e);
+        Logger.debug(`Write file: ${pathTypesDir}/index.d.ts`);
         Logger.debug('apply:run:declare', declare);
 
         fs.writeFileSync(
@@ -164,35 +165,24 @@ module.exports = class W5MFTypesPlugin {
         });
         Logger.debug('apply:run:remoteUrls', remoteUrls);
 
-        const httpsAgent = new https.Agent({
-          rejectUnauthorized: false,
-        });
-
         remoteUrls.forEach(remote => {
-          axios.get(`${remote}/${typesFile}`,  { httpsAgent })
+          axios.get(`${remote}/${typesFile}`)
             .then(indexFileResp => {
               Logger.debug(`apply.run.remote:${remote}/${typesFile}`, indexFileResp);
               indexFileResp.data?.forEach(file => {
                 Logger.debug(`apply.run.remote:file:${remote}/${file}`, file);
-                axios.get(`${remote}/${file}`,  { httpsAgent })
-                  .then(resp => {
-                    Logger.debug('apply.run.remote:file', resp);
-                    Logger.debug('apply.run.remote:file:write', `${installDir}/${path.dirname(file)}`);
-                    fs.writeFileSync(
-                      `${installDir}/${path.dirname(file)}`,
-                      resp.data,
-                    );
-                  });
+                Logger.debug(`apply.run.remote:download:${remote}/${file}`, `${installDir}/${path.dirname(file)}`);
+                download(`${remote}/${file}`, `${installDir}/${path.dirname(file)}`)
               });
             })
             .catch((e) => {
-              Logger.error('Error fetching / writing types', e);
+              Logger.error('Error fetching/writing types', e);
             });
         });
       }
     };
 
-    compiler.hooks.beforeRun.tap("W5MFTypes", (compilation) => {
+    compiler.hooks.beforeCompile.tap("W5MFTypes", (compilation) => {
       run(compilation);
     });
   }
