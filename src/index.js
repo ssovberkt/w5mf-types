@@ -8,27 +8,23 @@ const download = require('download');
 const Logger = {
   debug: (label, message) => {
     if (
-      process.env?.W5MF_TYPES_DEBUG_LEVEL === 'DEBUG' ||
-      process.env?.W5MF_TYPES_DEBUG_LEVEL === 'INFO' ||
-      process.env?.W5MF_TYPES_DEBUG_LEVEL === 'ERROR'
+      process.env?.W5MF_VERSIONS_DEBUG_LEVEL === 'INFO' ||
+      process.env?.W5MF_VERSIONS_DEBUG_LEVEL === 'ERROR'
     ) {
-      console.log(`[W5MF-TYPES][DEBUG][${label}]`, message);
+      return;
     }
+    console.log(`[W5MF-VERSIONS][DEBUG][${label}]`, message);
   },
   info: (label, message) => {
     if (
-      process.env?.W5MF_TYPES_DEBUG_LEVEL === 'INFO' ||
-      process.env?.W5MF_TYPES_DEBUG_LEVEL === 'ERROR'
+      process.env?.W5MF_VERSIONS_DEBUG_LEVEL === 'ERROR'
     ) {
-      console.log(`[W5MF-TYPES][INFO][${label}]`, message);
+      return;
     }
+    console.log(`[W5MF-VERSIONS][INFO][${label}]`, message);
   },
   error: (label, message) => {
-    if (
-      process.env?.W5MF_TYPES_DEBUG_LEVEL === 'ERROR'
-    ) {
-      console.log(`[W5MF-TYPES][ERROR][${label}]`, message);
-    }
+    console.log(`[W5MF-VERSIONS][ERROR][${label}]`, message);
   },
 }
 
