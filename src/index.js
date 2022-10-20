@@ -1,6 +1,5 @@
 const tar = require('tar');
 const download = require('download');
-const tar = require('tar');
 
 module.exports = class W5MFTypesPlugin {
   constructor(options) {
@@ -14,7 +13,7 @@ module.exports = class W5MFTypesPlugin {
     const ARCHIVE_FILE = this.options?.archiveFile || 'types.tar';
     const REMOTES = this.options?.remotes || {};
 
-    compiler.hooks.shutdown.tap("W5MFTypes", async (compilation) => {
+    compiler.hooks.assetEmitted.tap("W5MFTypes", async (compilation) => {
       if (!TYPE) {
         console.log('[W5MF-TYPES][ERROR]', 'Type not specified');
         return;
