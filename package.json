@@ -1,7 +1,7 @@
 {
   "name": "w5mf-types",
-  "version": "0.2.8",
-  "description": "For Webpack Module Federation Plugins: added shared typescript types",
+  "version": "0.3.0",
+  "description": "For Webpack Module Federation Plugins: Working typescript",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -16,9 +16,7 @@
   "author": "ssovberkt",
   "license": "MIT",
   "dependencies": {
-    "axios": "0.27.2",
     "download": "8.0.0",
-    "lodash.get": "4.4.2",
-    "typescript": "4.6.4"
+    "tar": "6.1.11"
   }
 }
